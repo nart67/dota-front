@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from './game';
+import { SearchService } from '../search.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-games',
@@ -7,19 +9,21 @@ import { Game } from './game';
   styleUrls: ['./games.component.css']
 })
 export class GamesComponent implements OnInit {
-  game: Game = {
-    match_id: 1,
-    radiant_win: true,
-    start_time: 0,
-    duration: 3000,
-    avg_mmr: 5000,
-    radiant_team: [1,2,3,4,5],
-    dire_team: [6,7,8,9,10]
-  }
+  games: Game[]
 
-  constructor() { }
+  constructor(
+    private searchService: SearchService,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
+    this.route.queryParamMap.subscribe((params) => {
+      console.log(params.get('hero');
+      const hero = +params.get('hero');
+      this.searchService.searchGames(hero).subscribe(games => {
+        this.games = games;
+      });
+    });
   }
 
 }
