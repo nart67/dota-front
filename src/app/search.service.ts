@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Game } from './games/game';
+import { Hero } from './hero';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,6 +15,10 @@ const httpOptions = {
 export class SearchService {
 
   constructor(private http: HttpClient) { }
+
+  getHeroes(): Observable<Hero[]> {
+    return this.http.get<Hero[]>('/api/heroes/').pipe();
+  }
 
   searchGames(hero: Number): Observable<Game[]> {
     return this.http.get<Game[]>(`/api/search/?hero=${hero}`).pipe(
