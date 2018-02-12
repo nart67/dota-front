@@ -1,5 +1,13 @@
 <div *ngFor="let game of games">
 <h2>{{ game.match_id }}</h2>
-<div><span>radiant: </span>{{game.radiant_team}}</div>
-<div><span>dire: </span>{{game.dire_team}}</div>
+<div>radiant: 
+    <div *ngFor="let hero of game.radiant_team">
+        {{ heroes[hero] }}
+    </div>
+</div>
+<div>dire: 
+        <div *ngFor="let hero of game.dire_team">
+            {{ heroes[hero] }}
+        </div>
+    </div>
 </div>

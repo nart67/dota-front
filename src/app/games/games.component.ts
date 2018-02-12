@@ -9,7 +9,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./games.component.css']
 })
 export class GamesComponent implements OnInit {
-  games: Game[]
+  games: Game[];
+  heroes: string[] = [];
 
   constructor(
     private searchService: SearchService,
@@ -18,12 +19,19 @@ export class GamesComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParamMap.subscribe((params) => {
-      console.log(params.get('hero');
       const hero = +params.get('hero');
       this.searchService.searchGames(hero).subscribe(games => {
         this.games = games;
       });
     });
+    this.getHeroes();
   }
 
+  getHeroes() {
+    this.searchService.getHeroes().subscribe(heroes => {
+      for (let i = 0; i < heroes.length; i++) {
+        this.heroes[heroes[i].id] = heroes[i].localized_name;
+      }
+    });
+  }
 }
