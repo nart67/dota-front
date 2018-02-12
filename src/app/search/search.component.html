@@ -1,10 +1,11 @@
 <form class="search-form">
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="field-full-width">
     <input type="text" spellcheck="false" placeholder="Choose a Hero" aria-label="Hero" matInput [formControl]="heroControl" [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" [autoActiveFirstOption]="true">
       <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
         {{ option.localized_name }}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
+  <button mat-raised-button (click)="search()">Search</button>
 </form>

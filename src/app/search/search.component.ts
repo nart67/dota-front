@@ -1,10 +1,12 @@
 import { SearchService } from './../search.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 import { Hero } from '../hero';
+import { Router } from '@angular/router';
+import { MatAutocompleteTrigger } from '@angular/material';
 
 @Component({
   selector: 'app-search',
@@ -12,15 +14,21 @@ import { Hero } from '../hero';
   styleUrls: ['./search.component.css']
 })
 
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, AfterViewInit {
   options: Hero[];
   heroControl: FormControl = new FormControl();
   filteredOptions: Observable<Hero[]>;
 
-  constructor(private searchService: SearchService) {
+  @ViewChild(MatAutocompleteTrigger) trigger;
+
+  constructor(
+    private searchService: SearchService,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
     this.searchService.getHeroes().subscribe(heroes => {
       this.options = heroes;
-      console.log(this.options);
       this.filteredOptions = this.heroControl.valueChanges
       .pipe(
         startWith<string | Hero>(''),
@@ -30,8 +38,15 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-
+  ngAfterViewInit() {
+    // If a choice is not chosen, clear field
+    this.trigger.panelClosingActions
+      .subscribe(e => {
+        if (!(e && e.source)) {
+          this.heroControl.setValue('');
+          this.trigger.closePanel();
+        }
+      });
   }
 
   filter(name: string): Hero[] {
@@ -41,6 +56,13 @@ export class SearchComponent implements OnInit {
 
   displayFn(hero?: Hero): string | undefined {
     return hero ? hero.localized_name : undefined;
+  }
+
+  search() {
+    let control = this.heroControl.value;
+    if (control == null || control === '') { return; }
+    let hero = this.heroControl.value['id'];
+    this.router.navigate(['/games'], { queryParams: { 'hero': hero } });
   }
 
 }
