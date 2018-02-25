@@ -27,7 +27,7 @@ export class SearchService {
         url.set(key, params[key]);
     }
 
-    return this.http.get<Game[]>(`/api/search/?`+ url.toString()).pipe(
+    return this.http.get<Game[]>(`/api/search/?` + url.toString()).pipe(
       // tap(_ => this.log(`found heroes matching "${hero}"`)),
       // catchError(this.handleError<Game[]>('searchGames', []))
     );
