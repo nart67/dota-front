@@ -1,11 +1,36 @@
 <form class="search-form">
+
   <mat-form-field class="field-full-width">
-    <input type="text" spellcheck="false" placeholder="Choose a Hero" aria-label="Hero" matInput [formControl]="heroControl" [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" [autoActiveFirstOption]="true">
-      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+    <input #hero type="text" spellcheck="false" placeholder="Choose a Hero" aria-label="Hero" matInput [formControl]="heroControl" [matAutocomplete]="autoHero">
+    <mat-autocomplete #autoHero="matAutocomplete" [displayWith]="displayFn" [autoActiveFirstOption]="true" (optionSelected)="opponentControl.enable()">
+      <mat-option *ngFor="let option of filteredHeroes | async" [value]="option">
         {{ option.localized_name }}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
-  <button mat-raised-button (click)="search()">Search</button>
+
+  <mat-form-field class="field-full-width">
+    <input #opponent type="text" spellcheck="false" placeholder="Choose an Opponent" aria-label="Opponent" matInput [formControl]="opponentControl" [matAutocomplete]="autoOpponent">
+    <mat-autocomplete #autoOpponent="matAutocomplete" [displayWith]="displayFn" [autoActiveFirstOption]="true">
+      <mat-option *ngFor="let option of filteredOpponents | async" [value]="option">
+        {{ option.localized_name }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <section class="checkbox-section">
+    <mat-checkbox class="checkbox" name="loss" [(ngModel)]="loss">Show Losses</mat-checkbox>
+  </section>
+
+  <mat-form-field [floatLabel]="float">
+    <mat-label>Side</mat-label>
+    <mat-select placeholder="Both Sides" name="side" [(ngModel)]="side">
+      <mat-option>Both Sides</mat-option>
+      <mat-option *ngFor="let side of sides" [value]="side.value">
+        {{ side.view }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-raised-button [disabled]="searchDisabled()" (click)="search()">Search</button>
 </form>

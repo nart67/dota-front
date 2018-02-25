@@ -1,3 +1,4 @@
+import { SearchParams } from '../param';
 import { SearchService } from './../search.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -15,11 +16,24 @@ import { MatAutocompleteTrigger } from '@angular/material';
 })
 
 export class SearchComponent implements OnInit, AfterViewInit {
+  side: string;
   options: Hero[];
   heroControl: FormControl = new FormControl();
-  filteredOptions: Observable<Hero[]>;
+  opponentControl: FormControl = new FormControl();
 
-  @ViewChild(MatAutocompleteTrigger) trigger;
+  float = 'always';
+  loss = false;
+
+  sides = [
+    {value: 'radiant', view: 'Radiant'},
+    {value: 'dire', view: 'Dire'}
+  ];
+
+  filteredHeroes: Observable<Hero[]>;
+  filteredOpponents: Observable<Hero[]>;
+
+  @ViewChild('hero', { read: MatAutocompleteTrigger }) heroTrigger;
+  @ViewChild('opponent', { read: MatAutocompleteTrigger }) opponentTrigger;
 
   constructor(
     private searchService: SearchService,
@@ -29,22 +43,38 @@ export class SearchComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.searchService.getHeroes().subscribe(heroes => {
       this.options = heroes;
-      this.filteredOptions = this.heroControl.valueChanges
+      this.filteredHeroes = this.heroControl.valueChanges
+      .pipe(
+        startWith<string | Hero>(''),
+        map(val => typeof val === 'string' ? val : val.localized_name),
+        map(name => name ? this.filter(name) : this.options.slice())
+      );
+      this.filteredOpponents = this.opponentControl.valueChanges
       .pipe(
         startWith<string | Hero>(''),
         map(val => typeof val === 'string' ? val : val.localized_name),
         map(name => name ? this.filter(name) : this.options.slice())
       );
     });
+    this.opponentControl.disable();
   }
 
   ngAfterViewInit() {
     // If a choice is not chosen, clear field
-    this.trigger.panelClosingActions
+    this.heroTrigger.panelClosingActions
       .subscribe(e => {
         if (!(e && e.source)) {
           this.heroControl.setValue('');
-          this.trigger.closePanel();
+          this.heroTrigger.closePanel();
+          this.opponentControl.setValue('');
+          this.opponentControl.disable();
+        }
+      });
+    this.opponentTrigger.panelClosingActions
+      .subscribe(e => {
+        if (!(e && e.source)) {
+          this.opponentControl.setValue('');
+          this.opponentTrigger.closePanel();
         }
       });
   }
@@ -58,11 +88,27 @@ export class SearchComponent implements OnInit, AfterViewInit {
     return hero ? hero.localized_name : undefined;
   }
 
+  searchDisabled() {
+    const control = this.heroControl.value;
+    if (control == null || control === '') { return true; }
+    return false;
+  }
+
   search() {
-    let control = this.heroControl.value;
-    if (control == null || control === '') { return; }
-    let hero = this.heroControl.value['id'];
-    this.router.navigate(['/games'], { queryParams: { 'hero': hero } });
+    const hero = this.heroControl.value['id'];
+    const params = new SearchParams;
+    params.hero = hero;
+    if (this.opponentControl.value) {
+      params.opp = this.opponentControl.value['id'];
+    }
+    if (this.loss) {
+      params.loss = 1;
+    }
+    if (this.side) {
+      params.side = this.side;
+    }
+
+    this.router.navigate(['/games'], { queryParams: params });
   }
 
 }
