@@ -1,3 +1,4 @@
+import { SearchParams } from './param';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -20,8 +21,13 @@ export class SearchService {
     return this.http.get<Hero[]>('/api/heroes/').pipe();
   }
 
-  searchGames(hero: Number): Observable<Game[]> {
-    return this.http.get<Game[]>(`/api/search/?hero=${hero}`).pipe(
+  searchGames(params: SearchParams): Observable<Game[]> {
+    const url = new URLSearchParams();
+    for (const key of Object.keys(params)) {
+        url.set(key, params[key]);
+    }
+
+    return this.http.get<Game[]>(`/api/search/?`+ url.toString()).pipe(
       // tap(_ => this.log(`found heroes matching "${hero}"`)),
       // catchError(this.handleError<Game[]>('searchGames', []))
     );
