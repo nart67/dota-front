@@ -10,6 +10,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatInputModule, MatButtonModule } from '@angular/material';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
 import { AppRoutingModule } from './/app-routing.module';
 
 @NgModule({
@@ -27,6 +30,9 @@ import { AppRoutingModule } from './/app-routing.module';
     MatAutocompleteModule,
     MatInputModule,
     MatButtonModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatIconModule,
     AppRoutingModule
   ],
   providers: [
