@@ -13,6 +13,8 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
+const API = 'https://nart-dota-api.herokuapp.com/';
+
 @Injectable()
 export class SearchService {
   private dataSubject = new ReplaySubject<Hero[]>(1);
@@ -23,7 +25,7 @@ export class SearchService {
 
   getHeroes(): Observable<Hero[]> {
     if (!this.fetched) {
-      this.http.get<Hero[]>('/api/heroes/').subscribe(res => this.dataSubject.next(res));
+      this.http.get<Hero[]>(API + 'heroes/').subscribe(res => this.dataSubject.next(res));
       this.fetched = true;
     }
     return this.heroes;
@@ -35,7 +37,7 @@ export class SearchService {
         url.set(key, params[key]);
     }
 
-    return this.http.get<Game[]>(`/api/search/?` + url.toString()).pipe(
+    return this.http.get<Game[]>(API + `search/?` + url.toString()).pipe(
       // tap(_ => this.log(`found heroes matching "${hero}"`)),
       // catchError(this.handleError<Game[]>('searchGames', []))
     );
