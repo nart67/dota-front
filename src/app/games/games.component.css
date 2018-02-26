@@ -1,0 +1,20 @@
+mat-table, mat-paginator {
+    background: #202020;
+}
+
+mat-row {
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+
+mat-header-cell, mat-cell {
+    padding-right: 15px;
+}
+
+.mat-column-mmr {
+    max-width: 200px;
+}
+
+.mat-column-heroes {
+    max-width: 300px;
+}

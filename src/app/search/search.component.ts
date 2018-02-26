@@ -49,12 +49,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
         map(val => typeof val === 'string' ? val : val.localized_name),
         map(name => name ? this.filter(name) : this.options.slice())
       );
-      this.filteredOpponents = this.opponentControl.valueChanges
-      .pipe(
-        startWith<string | Hero>(''),
-        map(val => typeof val === 'string' ? val : val.localized_name),
-        map(name => name ? this.filter(name) : this.options.slice())
-      );
     });
     this.opponentControl.disable();
   }
@@ -86,6 +80,16 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   displayFn(hero?: Hero): string | undefined {
     return hero ? hero.localized_name : undefined;
+  }
+
+  enableOpponent() {
+    this.opponentControl.enable();
+    this.filteredOpponents = this.opponentControl.valueChanges
+    .pipe(
+      startWith<string | Hero>(''),
+      map(val => typeof val === 'string' ? val : val.localized_name),
+      map(name => name ? this.filter(name) : this.options.slice())
+    );
   }
 
   searchDisabled() {

@@ -1,13 +1,62 @@
-<div *ngFor="let game of games">
-<h2>{{ game.match_id }}</h2>
-<div>radiant: 
-    <div *ngFor="let hero of game.radiant_team">
-        {{ heroes[hero] }}
-    </div>
-</div>
-<div>dire: 
-        <div *ngFor="let hero of game.dire_team">
-            {{ heroes[hero] }}
-        </div>
-    </div>
+<div class="table">
+    <mat-table #table [dataSource]="dataSource">
+    
+        <!-- Heroes Column -->
+        <ng-container matColumnDef="heroes">
+        <mat-header-cell *matHeaderCellDef> Heroes </mat-header-cell>
+        <mat-cell *matCellDef="let game">
+            <div class="row no-gutters">
+                <div class="col" *ngFor="let hero of game.radiant_team">
+                    <img src="assets/img/heroes/{{ heroes[hero].name.slice(14) }}.png" 
+                    title="{{ heroes[hero].localized_name }}" style="vertical-align:middle;" height="30">
+                </div>
+            </div>
+            <div class="row no-gutters">
+                <div class="col" *ngFor="let hero of game.dire_team">
+                    <img src="assets/img/heroes/{{ heroes[hero].name.slice(14) }}.png" 
+                    title="{{ heroes[hero].localized_name }}" style="vertical-align:middle;" height="30">
+                </div>
+            </div>
+        </mat-cell>
+        </ng-container>
+    
+        <!-- MMR Column -->
+        <ng-container matColumnDef="mmr">
+        <mat-header-cell *matHeaderCellDef> Average MMR </mat-header-cell>
+        <mat-cell *matCellDef="let game"> {{game.avg_mmr}} </mat-cell>
+        </ng-container>
+    
+        <!-- Result Column -->
+        <ng-container matColumnDef="result">
+        <mat-header-cell *matHeaderCellDef> Result </mat-header-cell>
+        <mat-cell *matCellDef="let game">
+            {{ game.radiant_win ? 'Radiant Victory' : 'Dire Victory' }}
+        </mat-cell>
+        </ng-container>
+    
+        <!-- Start Time Column -->
+        <ng-container matColumnDef="start">
+        <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
+        <mat-cell *matCellDef="let game"> {{game.start_time * 1000 | date: 'medium'}} </mat-cell>
+        </ng-container>
+    
+        <!-- Replay Column -->
+        <ng-container matColumnDef="replay">
+        <mat-header-cell *matHeaderCellDef> Replays </mat-header-cell>
+        <mat-cell *matCellDef="let game"> 
+            <a href="https://www.dotabuff.com/matches/{{ game.match_id }}" target="_blank">
+                Dotabuff
+            </a>
+        </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    
+    <mat-paginator #paginator
+                    [pageSize]="10"
+                    [pageSizeOptions]="[5, 10, 20]"
+                    [showFirstLastButtons]="true">
+    </mat-paginator>
 </div>
