@@ -14,6 +14,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { AppRoutingModule } from './/app-routing.module';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { AppRoutingModule } from './/app-routing.module';
     MatSelectModule,
     MatCheckboxModule,
     MatIconModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [
     SearchService,
