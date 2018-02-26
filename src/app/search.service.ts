@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { of } from 'rxjs/observable/of';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { Game } from './games/game';
 import { Hero } from './hero';
 
@@ -14,11 +15,18 @@ const httpOptions = {
 
 @Injectable()
 export class SearchService {
+  private dataSubject = new ReplaySubject<Hero[]>(1);
+  heroes: Observable<Hero[]> = this.dataSubject.asObservable();
+  fetched: Boolean = false;
 
   constructor(private http: HttpClient) { }
 
   getHeroes(): Observable<Hero[]> {
-    return this.http.get<Hero[]>('/api/heroes/').pipe();
+    if (!this.fetched) {
+      this.http.get<Hero[]>('/api/heroes/').subscribe(res => this.dataSubject.next(res));
+      this.fetched = true;
+    }
+    return this.heroes;
   }
 
   searchGames(params: SearchParams): Observable<Game[]> {
