@@ -1,4 +1,4 @@
-import { SearchParams } from './param';
+import { SearchParams } from '../classes/searchparam';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -6,14 +6,13 @@ import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { of } from 'rxjs/observable/of';
 import { catchError, tap } from 'rxjs/operators';
-import { Game } from './games/game';
-import { Hero } from './hero';
+import { Game } from '../games/game';
+import { Hero } from '../classes/hero';
+import { backend as API } from '../const';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
-
-const API = 'https://nart-dota-api.herokuapp.com/';
 
 @Injectable()
 export class SearchService {

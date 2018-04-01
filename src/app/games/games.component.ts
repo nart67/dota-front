@@ -1,8 +1,8 @@
-import { Hero } from './../hero';
-import { SearchParams } from './../param';
+import { Hero } from '../classes/hero';
+import { SearchParams } from '../classes/searchparam';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Game } from './game';
-import { SearchService } from '../search.service';
+import { SearchService } from '../services/search.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 

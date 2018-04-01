@@ -1,11 +1,11 @@
-import { SearchParams } from '../param';
-import { SearchService } from './../search.service';
+import { SearchParams } from '../classes/searchparam';
+import { SearchService } from '../services/search.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
-import { Hero } from '../hero';
+import { Hero } from '../classes/hero';
 import { Router } from '@angular/router';
 import { MatAutocompleteTrigger } from '@angular/material';
 
