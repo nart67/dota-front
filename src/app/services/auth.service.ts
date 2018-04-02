@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable } from 'rxjs/Observable';
 import { catchError, tap, map } from 'rxjs/operators';
 import { backend as API } from '../const';
+import { Subject } from 'rxjs/Subject';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,7 +14,9 @@ const httpOptions = {
 export class AuthService {
   authenticated: Boolean;
   accessToken: string;
-  userProfile: any;
+
+  public userProfile = new Subject<string>();
+  public currentUser: Observable<string> = this.userProfile.asObservable();
 
   constructor(private http: HttpClient) {
     this.checkAuthentication();
@@ -24,20 +27,22 @@ export class AuthService {
     if (currentUser) {
       this.accessToken = currentUser.token;
       this.authenticated = true;
+      this.userProfile.next(currentUser.username);
     } else {
       this.authenticated = false;
     }
   }
 
-  login(username: String, pass: String): Observable<boolean> {
+  login(username: string, pass: string): Observable<boolean> {
     return this.http.post(API + 'login', { name: username, password: pass })
     .pipe(
       map((response: any) => {
-        console.log(response);
         const token = response && response.token;
         if (token) {
           // set token property
           this.accessToken = token;
+          this.userProfile.next(username);
+          this.authenticated = true;
 
           // store username and jwt token in local storage to keep user logged in between page refreshes
           localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token }));
@@ -53,5 +58,12 @@ export class AuthService {
         return Observable.of(false);
       })
     );
+  }
+
+  logout() {
+    this.authenticated = false;
+    this.accessToken = null;
+    this.userProfile.next(null);
+    localStorage.removeItem('currentUser');
   }
 }

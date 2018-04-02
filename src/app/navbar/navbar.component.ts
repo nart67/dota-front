@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -5,12 +7,21 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   public isExpanded = false;
+  public user = '';
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {
+    authService.currentUser.subscribe((user) => {
+      this.user = user;
+    });
   }
 
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/']);
+  }
 }
