@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
 import { catchError, tap, map } from 'rxjs/operators';
 import { backend as API } from '../const';
 
@@ -49,6 +48,9 @@ export class AuthService {
           // return false to indicate failed login
           return false;
         }
+      }),
+      catchError((err: HttpErrorResponse) => {
+        return Observable.of(false);
       })
     );
   }

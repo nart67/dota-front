@@ -1,3 +1,6 @@
+import { HttpErrorInterceptor } from './services/httperror.interceptor';
+import { AuthService } from './services/auth.service';
+import { FavoriteService } from './services/favorite.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -5,7 +8,7 @@ import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
 import { GamesComponent } from './games/games.component';
 import { SearchService } from './services/search.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -51,6 +54,13 @@ import { FavoritesComponent } from './favorites/favorites.component';
   ],
   providers: [
     SearchService,
+    FavoriteService,
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
