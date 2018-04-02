@@ -1,9 +1,3 @@
-html, body {
-    min-height: 100vh;
-    height: auto;
-    margin: 0;
-}
-
 .col-2 {
     margin: 20;
     background-color: #303030;

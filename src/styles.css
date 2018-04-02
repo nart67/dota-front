@@ -3,3 +3,7 @@ html, body {
     color: white;
     background: #202020;
 }
+
+body {
+    padding-top: 80px;
+}
