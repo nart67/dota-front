@@ -50,7 +50,7 @@ import { FavoritesComponent } from './favorites/favorites.component';
     AppRoutingModule,
     MatTableModule,
     MatPaginatorModule,
-    NgbModule
+    NgbModule.forRoot()
   ],
   providers: [
     SearchService,
