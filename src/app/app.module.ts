@@ -16,12 +16,21 @@ import { MatIconModule } from '@angular/material/icon';
 import { AppRoutingModule } from './/app-routing.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { NavbarComponent } from './navbar/navbar.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { FavoritesComponent } from './favorites/favorites.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchComponent,
-    GamesComponent
+    GamesComponent,
+    NavbarComponent,
+    LoginComponent,
+    RegisterComponent,
+    FavoritesComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +46,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatIconModule,
     AppRoutingModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    NgbModule
   ],
   providers: [
     SearchService,
