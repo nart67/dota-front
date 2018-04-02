@@ -1,14 +1,15 @@
 <div class="text-center">
-  <form class="form-signin">
+  <form (ngSubmit)="login()" class="form-signin">
     <img class="mb-4" src="assets/img/icons/dota-icon.png" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
     <mat-form-field class="field-full-width">
-      <input matInput placeholder="Username">
+      <input matInput placeholder="Username" [(ngModel)]="username" name="username">
     </mat-form-field>
     <mat-form-field class="field-full-width">
-      <input matInput placeholder="Password" type="password">
+      <input matInput placeholder="Password" type="password" [(ngModel)]="password" name="password">
     </mat-form-field>
-    <button mat-raised-button color="primary" [disabled]="false">Sign In</button>
+    <button type="submit" mat-raised-button color="primary" [disabled]="loading">Sign In</button>
     <p class="mt-5 mb-3"><a routerLink="/register" class="text-primary">Create account</a></p>
   </form>
 </div>
