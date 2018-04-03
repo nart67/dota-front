@@ -1,3 +1,4 @@
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { HttpErrorInterceptor } from './services/httperror.interceptor';
 import { AuthService } from './services/auth.service';
 import { FavoriteService } from './services/favorite.service';
@@ -60,6 +61,10 @@ import { FavoritesComponent } from './favorites/favorites.component';
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
       multi: true
+    },
+    {
+      provide: ErrorStateMatcher,
+      useClass: ShowOnDirtyErrorStateMatcher
     }
   ],
   bootstrap: [AppComponent]

@@ -33,8 +33,8 @@ export class AuthService {
     }
   }
 
-  login(username: string, pass: string): Observable<boolean> {
-    return this.http.post(API + 'login', { name: username, password: pass })
+  login(username: string, password: string): Observable<boolean> {
+    return this.http.post(API + 'login', { name: username, password: password })
     .pipe(
       map((response: any) => {
         const token = response && response.token;
@@ -65,5 +65,22 @@ export class AuthService {
     this.accessToken = null;
     this.userProfile.next(null);
     localStorage.removeItem('currentUser');
+  }
+
+  register(username: string, password: string): Observable<boolean> {
+    return this.http.post(API + 'register', { name: username, password: password })
+    .pipe(
+      map((response: any) => {
+        const user = response && response.user;
+        if (user) {
+          return true;
+        } else {
+          return false;
+        }
+      }),
+      catchError((err: HttpErrorResponse) => {
+        return Observable.of(false);
+      })
+    );
   }
 }

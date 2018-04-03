@@ -1,3 +1,23 @@
-<p>
-  register works!
-</p>
+<div class="text-center">
+  <form class="form-register" (ngSubmit)="registerGroup.valid && register()" [formGroup]="registerGroup">
+    <img class="mb-4" src="assets/img/icons/dota-icon.png" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Create an account</h1>
+    <div class="alert"><p class="text-danger" *ngIf="registerGroup.errors">
+        Passwords must match.
+      </p>
+      <p class="text-danger" *ngIf="!registerGroup.errors && error">
+        {{error}}
+      </p></div>
+    <mat-form-field class="field-full-width" hideRequiredMarker="true">
+      <input matInput placeholder="Username" name="username" formControlName="username" required>
+    </mat-form-field>
+    <mat-form-field class="field-full-width" hideRequiredMarker="true">
+      <input matInput placeholder="Password" type="password" formControlName="password" required>
+    </mat-form-field>
+    <mat-form-field class="field-full-width" hideRequiredMarker="true">
+      <input matInput placeholder="Confirm Password" type="password" formControlName="confirm" required>
+    </mat-form-field>
+    <button mat-raised-button color="primary">Register</button>
+    <p class="mt-5 mb-3"><a routerLink="/login" class="text-primary">Sign in instead</a></p>
+  </form>
+</div>
