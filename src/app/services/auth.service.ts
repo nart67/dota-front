@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable } from 'rxjs/Observable';
 import { catchError, tap, map } from 'rxjs/operators';
 import { backend as API } from '../const';
-import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,7 +15,7 @@ export class AuthService {
   authenticated: Boolean;
   accessToken: string;
 
-  public userProfile = new Subject<string>();
+  public userProfile = new BehaviorSubject<string>('');
   public currentUser: Observable<string> = this.userProfile.asObservable();
 
   constructor(private http: HttpClient) {
