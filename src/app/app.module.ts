@@ -1,3 +1,4 @@
+import { TokenInterceptor } from './services/token.interceptor';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { HttpErrorInterceptor } from './services/httperror.interceptor';
 import { AuthService } from './services/auth.service';
@@ -57,6 +58,11 @@ import { FavoritesComponent } from './favorites/favorites.component';
     SearchService,
     FavoriteService,
     AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
