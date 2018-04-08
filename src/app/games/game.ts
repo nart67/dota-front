@@ -1,4 +1,5 @@
 export class Game {
+    _id: string;
     match_id: number;
     radiant_win: boolean;
     start_time: number;

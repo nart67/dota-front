@@ -1,10 +1,13 @@
+import { Favorite } from './../classes/favorite';
+import { AuthService } from './../services/auth.service';
+import { FavoriteService } from './../services/favorite.service';
 import { Hero } from '../classes/hero';
 import { SearchParams } from '../classes/searchparam';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Game } from './game';
 import { SearchService } from '../services/search.service';
 import { ActivatedRoute } from '@angular/router';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatCheckboxChange } from '@angular/material';
 
 @Component({
   selector: 'app-games',
@@ -14,14 +17,18 @@ import { MatPaginator, MatTableDataSource } from '@angular/material';
 export class GamesComponent implements OnInit, AfterViewInit {
   games: Game[];
   heroes: Hero[] = [];
-  displayedColumns = ['heroes', 'mmr', 'result', 'start', 'replay'];
+  displayedColumns = ['heroes', 'mmr', 'result', 'start', 'replay', 'favorite'];
   dataSource = new MatTableDataSource<Game>();
+  authenticated: boolean;
+  favorites = new Map<string, Favorite>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private searchService: SearchService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private favoriteService: FavoriteService
   ) { }
 
   ngOnInit() {
@@ -37,6 +44,12 @@ export class GamesComponent implements OnInit, AfterViewInit {
       });
     });
     this.getHeroes();
+    this.authService.currentUser.subscribe((user) => {
+      this.authenticated = !!user;
+      if (this.authenticated) {
+        this.getFavorites();
+      }
+    });
   }
 
   /**
@@ -47,11 +60,32 @@ export class GamesComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
+  onCheck(id: string, event: MatCheckboxChange) {
+    if (event.checked) {
+      this.favoriteService.addFavorite(id).subscribe((res: any) => {
+        if (res.favorite) {
+          this.favorites.set(res.favorite.game_id, res.favorite);
+        }
+      });
+    } else {
+      this.favoriteService.deleteFavorite(this.favorites.get(id)._id)
+      .subscribe();
+    }
+  }
+
   getHeroes() {
     this.searchService.getHeroes().subscribe(heroes => {
       for (let i = 0; i < heroes.length; i++) {
         this.heroes[heroes[i].id] = heroes[i];
       }
+    });
+  }
+
+  getFavorites() {
+    this.favoriteService.getFavorites().subscribe(favorites => {
+      favorites.forEach(favorite => {
+        this.favorites.set(favorite.game_id._id, favorite);
+      });
     });
   }
 }

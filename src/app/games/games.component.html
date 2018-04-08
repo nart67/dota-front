@@ -50,6 +50,19 @@
         </mat-cell>
         </ng-container>
 
+        <!-- Favorite Column -->
+        <ng-container matColumnDef="favorite">
+            <mat-header-cell *matHeaderCellDef> Add to Favorites </mat-header-cell>
+            <mat-cell *matCellDef="let game"> 
+                <mat-checkbox
+                    class="checkbox"
+                    id="{{game._id}}"
+                    [checked]="!!favorites.get(game._id)"
+                    (change)="onCheck(game._id, $event)">
+                </mat-checkbox>
+            </mat-cell>
+        </ng-container>
+
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>

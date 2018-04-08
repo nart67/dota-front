@@ -9,6 +9,7 @@ mat-row {
 
 mat-header-cell, mat-cell {
     padding-right: 15px;
+    text-align: center;
 }
 
 .mat-column-mmr {
