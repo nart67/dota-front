@@ -1,17 +1,17 @@
 <div class="table">
-    <mat-table #table [dataSource]="dataSource">
-    
+    <mat-table #table [dataSource]="dataSource" [class.not-mobile]="!isMobile">
+
         <!-- Heroes Column -->
         <ng-container matColumnDef="heroes">
         <mat-header-cell *matHeaderCellDef> Heroes </mat-header-cell>
         <mat-cell *matCellDef="let game">
-            <div class="row no-gutters">
+            <div class="row no-gutters hero-row">
                 <div class="col" *ngFor="let hero of game.radiant_team">
                     <img src="assets/img/heroes/{{ heroes[hero].name.slice(14) }}.png" 
                     title="{{ heroes[hero].localized_name }}" style="vertical-align:middle;" height="30">
                 </div>
             </div>
-            <div class="row no-gutters">
+            <div class="row no-gutters hero-row">
                 <div class="col" *ngFor="let hero of game.dire_team">
                     <img src="assets/img/heroes/{{ heroes[hero].name.slice(14) }}.png" 
                     title="{{ heroes[hero].localized_name }}" style="vertical-align:middle;" height="30">
@@ -47,6 +47,10 @@
             <a href="https://www.dotabuff.com/matches/{{ game.match_id }}" target="_blank">
                 Dotabuff
             </a>
+            <br>
+            <a href="https://www.opendota.com/matches/{{ game.match_id }}" target="_blank">
+                OpenDotA
+            </a>
         </mat-cell>
         </ng-container>
 
@@ -61,6 +65,57 @@
                     (change)="onCheck(game._id, $event)">
                 </mat-checkbox>
             </mat-cell>
+        </ng-container>
+        
+        <!-- Mobile Only Column -->
+        <ng-container matColumnDef="mobile">
+        <mat-header-cell *matHeaderCellDef style="display: none;">Mobile</mat-header-cell>
+        <mat-cell *matCellDef="let game">
+            <div class="container">
+            <div class="row justify-content-center">
+            <div class="col-auto">
+                <div class="row no-gutters hero-row">
+                    <div class="col" *ngFor="let hero of game.radiant_team">
+                        <img src="assets/img/heroes/{{ heroes[hero].name.slice(14) }}.png" 
+                        title="{{ heroes[hero].localized_name }}" style="vertical-align:middle;" height="30">
+                    </div>
+                </div>
+                <div class="row no-gutters bottom-row hero-row">
+                    <div class="col" *ngFor="let hero of game.dire_team">
+                        <img src="assets/img/heroes/{{ heroes[hero].name.slice(14) }}.png" 
+                        title="{{ heroes[hero].localized_name }}" style="vertical-align:middle;" height="30">
+                    </div>
+                </div>
+                Average MMR: {{game.avg_mmr}}<br>
+                {{ game.radiant_win ? 'Radiant Victory' : 'Dire Victory' }}<br>
+                {{game.start_time * 1000 | date: 'medium'}}<br>
+            </div>
+            <div class="col-auto vertical-align">
+                <div>
+                <div class="row justify-content-center">
+                    <mat-checkbox
+                        class="checkbox"
+                        id="{{game._id}}"
+                        [checked]="!!favorites.get(game._id)"
+                        (change)="onCheck(game._id, $event)">
+                        Favorite
+                    </mat-checkbox>
+                </div>
+                <div class="row justify-content-center">
+                    <a href="https://www.dotabuff.com/matches/{{ game.match_id }}" 
+                        target="_blank" aria-label="Dotabuff" class="icon">
+                        <img src="assets/img/icons/dotabuff.png" height=35 title="Dotabuff">
+                    </a>
+                    <a href="https://www.opendota.com/matches/{{ game.match_id }}" 
+                        target="_blank" aria-label="OpenDota" class="icon">
+                        <img src="assets/img/icons/opendota.jpg" height=35 title="OpenDota">
+                    </a>
+                </div>
+                </div>
+            </div>
+            </div>
+            </div>
+        </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

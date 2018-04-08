@@ -1,3 +1,4 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { Favorite } from './../classes/favorite';
 import { AuthService } from './../services/auth.service';
 import { FavoriteService } from './../services/favorite.service';
@@ -17,10 +18,14 @@ import { MatPaginator, MatTableDataSource, MatCheckboxChange } from '@angular/ma
 export class GamesComponent implements OnInit, AfterViewInit {
   games: Game[];
   heroes: Hero[] = [];
-  displayedColumns = ['heroes', 'mmr', 'result', 'start', 'replay', 'favorite'];
   dataSource = new MatTableDataSource<Game>();
   authenticated: boolean;
   favorites = new Map<string, Favorite>();
+
+  webColumns = ['heroes', 'mmr', 'result', 'start', 'replay', 'favorite'];
+  mobileColumns = ['mobile'];
+  displayedColumns = this.webColumns;
+  isMobile: boolean;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -28,8 +33,19 @@ export class GamesComponent implements OnInit, AfterViewInit {
     private searchService: SearchService,
     private route: ActivatedRoute,
     private authService: AuthService,
-    private favoriteService: FavoriteService
-  ) { }
+    private favoriteService: FavoriteService,
+    private breakpointObserver: BreakpointObserver
+  ) {
+    this.breakpointObserver.observe('(max-width: 1000px)').subscribe((state) => {
+      if (state.matches) {
+        this.displayedColumns = this.mobileColumns;
+        this.isMobile = true;
+      } else {
+        this.displayedColumns = this.webColumns;
+        this.isMobile = false;
+      }
+    });
+   }
 
   ngOnInit() {
     this.route.queryParamMap.subscribe((params) => {

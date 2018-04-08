@@ -1,8 +1,11 @@
 mat-table, mat-paginator {
     background: #202020;
+    margin: auto;
+}
+
+.not-mobile {
     max-width: 1200px;
     min-width: 920px;
-    margin: auto;
 }
 
 mat-row {
@@ -31,7 +34,24 @@ mat-header-cell, mat-cell {
     max-width: 100px;
 }
 
-.row {
+.mat-column-mobile {
+    line-height: 1.6;
+}
+
+.hero-row {
     width: 280px;
     margin: auto;
+}
+
+.bottom-row {
+    margin-bottom: 5px;
+}
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    margin: 5px;
 }
