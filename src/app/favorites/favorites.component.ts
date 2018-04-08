@@ -1,3 +1,4 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { Favorite } from './../classes/favorite';
 import { SearchService } from './../services/search.service';
 import { FavoriteService } from './../services/favorite.service';
@@ -15,15 +16,30 @@ import { MatIconRegistry } from '@angular/material';
 })
 export class FavoritesComponent implements OnInit, AfterViewInit {
   heroes: Hero[] = [];
-  displayedColumns = ['heroes', 'mmr', 'result', 'start', 'replay', 'delete'];
   dataSource = new MatTableDataSource<Favorite>();
+
+  webColumns = ['heroes', 'mmr', 'result', 'start', 'replay', 'delete'];
+  mobileColumns = ['mobile'];
+  displayedColumns: Array<string>;
+  isMobile: boolean;
 
   @ViewChild('MatPaginator') paginator: MatPaginator;
 
   constructor(
     private favoriteService: FavoriteService,
-    private searchService: SearchService
-  ) { }
+    private searchService: SearchService,
+    private breakpointObserver: BreakpointObserver
+  ) {
+    this.breakpointObserver.observe('(max-width: 1000px)').subscribe((state) => {
+      if (state.matches) {
+        this.displayedColumns = this.mobileColumns;
+        this.isMobile = true;
+      } else {
+        this.displayedColumns = this.webColumns;
+        this.isMobile = false;
+      }
+    });
+  }
 
   ngOnInit() {
     this.favoriteService.getFavorites().subscribe(favorites => {

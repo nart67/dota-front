@@ -1,57 +1,57 @@
 <div class="table">
-  <mat-table #favoriteTable [dataSource]="dataSource">
+    <mat-table #table [dataSource]="dataSource" [class.not-mobile]="!isMobile">
   
-      <!-- Heroes Column -->
-      <ng-container matColumnDef="heroes">
-      <mat-header-cell *matHeaderCellDef> Heroes </mat-header-cell>
-      <mat-cell *matCellDef="let favorite">
-          <div class="row no-gutters">
-              <div class="col" *ngFor="let hero of favorite.game_id.radiant_team">
-                  <img src="assets/img/heroes/{{ heroes[hero].name.slice(14) }}.png" 
-                  title="{{ heroes[hero].localized_name }}" style="vertical-align:middle;" height="30">
-              </div>
-          </div>
-          <div class="row no-gutters">
-              <div class="col" *ngFor="let hero of favorite.game_id.dire_team">
-                  <img src="assets/img/heroes/{{ heroes[hero].name.slice(14) }}.png" 
-                  title="{{ heroes[hero].localized_name }}" style="vertical-align:middle;" height="30">
-              </div>
-          </div>
-      </mat-cell>
-      </ng-container>
-  
-      <!-- MMR Column -->
-      <ng-container matColumnDef="mmr">
-      <mat-header-cell *matHeaderCellDef> Average MMR </mat-header-cell>
-      <mat-cell *matCellDef="let favorite"> {{favorite.game_id.avg_mmr}} </mat-cell>
-      </ng-container>
-  
-      <!-- Result Column -->
-      <ng-container matColumnDef="result">
-      <mat-header-cell *matHeaderCellDef> Result </mat-header-cell>
-      <mat-cell *matCellDef="let favorite">
-          {{ favorite.game_id.radiant_win ? 'Radiant Victory' : 'Dire Victory' }}
-      </mat-cell>
-      </ng-container>
-  
-      <!-- Start Time Column -->
-      <ng-container matColumnDef="start">
-      <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
-      <mat-cell *matCellDef="let favorite"> {{favorite.game_id.start_time * 1000 | date: 'medium'}} </mat-cell>
-      </ng-container>
-  
-      <!-- Replay Column -->
-      <ng-container matColumnDef="replay">
-      <mat-header-cell *matHeaderCellDef> Replays </mat-header-cell>
-      <mat-cell *matCellDef="let favorite"> 
-          <a href="https://www.dotabuff.com/matches/{{ favorite.game_id.match_id }}" target="_blank">
-              Dotabuff
-          </a>
-      </mat-cell>
-      </ng-container>
+        <!-- Heroes Column -->
+        <ng-container matColumnDef="heroes">
+        <mat-header-cell *matHeaderCellDef> Heroes </mat-header-cell>
+        <mat-cell *matCellDef="let favorite">
+            <div class="row no-gutters hero-row">
+                <div class="col" *ngFor="let hero of favorite.game_id.radiant_team">
+                    <img src="assets/img/heroes/{{ heroes[hero].name.slice(14) }}.png" 
+                    title="{{ heroes[hero].localized_name }}" style="vertical-align:middle;" height="30">
+                </div>
+            </div>
+            <div class="row no-gutters hero-row">
+                <div class="col" *ngFor="let hero of favorite.game_id.dire_team">
+                    <img src="assets/img/heroes/{{ heroes[hero].name.slice(14) }}.png" 
+                    title="{{ heroes[hero].localized_name }}" style="vertical-align:middle;" height="30">
+                </div>
+            </div>
+        </mat-cell>
+        </ng-container>
 
-      <!-- Delete Column -->
-      <ng-container matColumnDef="delete">
+        <!-- MMR Column -->
+        <ng-container matColumnDef="mmr">
+        <mat-header-cell *matHeaderCellDef> Average MMR </mat-header-cell>
+        <mat-cell *matCellDef="let favorite"> {{favorite.game_id.avg_mmr}} </mat-cell>
+        </ng-container>
+
+        <!-- Result Column -->
+        <ng-container matColumnDef="result">
+        <mat-header-cell *matHeaderCellDef> Result </mat-header-cell>
+        <mat-cell *matCellDef="let favorite">
+            {{ favorite.game_id.radiant_win ? 'Radiant Victory' : 'Dire Victory' }}
+        </mat-cell>
+        </ng-container>
+
+        <!-- Start Time Column -->
+        <ng-container matColumnDef="start">
+        <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
+        <mat-cell *matCellDef="let favorite"> {{favorite.game_id.start_time * 1000 | date: 'medium'}} </mat-cell>
+        </ng-container>
+
+        <!-- Replay Column -->
+        <ng-container matColumnDef="replay">
+        <mat-header-cell *matHeaderCellDef> Replays </mat-header-cell>
+        <mat-cell *matCellDef="let favorite"> 
+            <a href="https://www.dotabuff.com/matches/{{ favorite.game_id.match_id }}" target="_blank">
+                Dotabuff
+            </a>
+        </mat-cell>
+        </ng-container>
+
+        <!-- Delete Column -->
+        <ng-container matColumnDef="delete">
         <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
         <mat-cell *matCellDef="let favorite; let i = index"> 
             <button mat-raised-button (click)="delete(favorite._id, i)"><mat-icon>clear
@@ -59,13 +59,61 @@
         </mat-cell>
         </ng-container>
 
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
-  
-  <mat-paginator #MatPaginator
-                  [pageSize]="10"
-                  [pageSizeOptions]="[5, 10, 20]"
-                  [showFirstLastButtons]="true">
-  </mat-paginator>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+        <!-- Mobile Only Column -->
+        <ng-container matColumnDef="mobile">
+            <mat-header-cell *matHeaderCellDef style="display: none;">Mobile</mat-header-cell>
+            <mat-cell *matCellDef="let favorite">
+                <div class="container">
+                <div class="row justify-content-center">
+                <div class="col-auto">
+                    <div class="row no-gutters hero-row">
+                        <div class="col" *ngFor="let hero of favorite.game_id.radiant_team">
+                            <img src="assets/img/heroes/{{ heroes[hero].name.slice(14) }}.png" 
+                            title="{{ heroes[hero].localized_name }}" style="vertical-align:middle;" height="30">
+                        </div>
+                    </div>
+                    <div class="row no-gutters bottom-row hero-row">
+                        <div class="col" *ngFor="let hero of favorite.game_id.dire_team">
+                            <img src="assets/img/heroes/{{ heroes[hero].name.slice(14) }}.png" 
+                            title="{{ heroes[hero].localized_name }}" style="vertical-align:middle;" height="30">
+                        </div>
+                    </div>
+                    Average MMR: {{favorite.game_id.avg_mmr}}<br>
+                    {{ favorite.game_id.radiant_win ? 'Radiant Victory' : 'Dire Victory' }}<br>
+                    {{favorite.game_id.start_time * 1000 | date: 'medium'}}<br>
+                </div>
+                <div class="col-auto vertical-align">
+                    <div>
+                    <div class="row justify-content-center">
+                            <button mat-fab (click)="delete(favorite._id, i)">
+                                <mat-icon aria-label="Clear button">clear</mat-icon>
+                            </button>
+                    </div>
+                    <div class="row justify-content-center">
+                        <a href="https://www.dotabuff.com/matches/{{ favorite.game_id.match_id }}" 
+                            target="_blank" aria-label="Dotabuff" class="icon">
+                            <img src="assets/img/icons/dotabuff.png" height=35 title="Dotabuff">
+                        </a>
+                        <a href="https://www.opendota.com/matches/{{ favorite.game_id.match_id }}" 
+                            target="_blank" aria-label="OpenDota" class="icon">
+                            <img src="assets/img/icons/opendota.jpg" height=35 title="OpenDota">
+                        </a>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                </div>
+            </mat-cell>
+        </ng-container>
+
+    </mat-table>
+
+    <mat-paginator #MatPaginator
+                    [pageSize]="10"
+                    [pageSizeOptions]="[5, 10, 20]"
+                    [showFirstLastButtons]="true">
+    </mat-paginator>
 </div>
