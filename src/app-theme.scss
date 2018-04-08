@@ -22,3 +22,10 @@ $app-theme: mat-dark-theme($app-primary, $app-accent, $app-warn);
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($app-theme);
+
+// Change backdrop color for Angular Material SideNav
+$drawer-backdrop-color: rgba(0, 0, 0, 0.6);
+
+.mat-drawer-backdrop.mat-drawer-shown { 
+    background-color: $drawer-backdrop-color; 
+} 
