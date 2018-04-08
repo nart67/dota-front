@@ -4,7 +4,9 @@ import { FavoriteService } from './../services/favorite.service';
 import { Hero } from '../classes/hero';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Game } from '../games/game';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatTable } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material';
 
 @Component({
   selector: 'app-favorites',
@@ -13,15 +15,21 @@ import { MatPaginator, MatTableDataSource } from '@angular/material';
 })
 export class FavoritesComponent implements OnInit, AfterViewInit {
   heroes: Hero[] = [];
-  displayedColumns = ['heroes', 'mmr', 'result', 'start', 'replay'];
+  displayedColumns = ['heroes', 'mmr', 'result', 'start', 'replay', 'delete'];
   dataSource = new MatTableDataSource<Favorite>();
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('MatPaginator') paginator: MatPaginator;
 
   constructor(
     private favoriteService: FavoriteService,
-    private searchService: SearchService
-  ) { }
+    private searchService: SearchService,
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer
+  ) {
+    iconRegistry.addSvgIcon(
+    'delete',
+    sanitizer.bypassSecurityTrustResourceUrl('assets/img/icons/delete.svg'));
+  }
 
   ngOnInit() {
     this.favoriteService.getFavorites().subscribe(favorites => {
@@ -32,6 +40,21 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+  }
+
+  delete(favorite_id: string, i: number) {
+    this.favoriteService.deleteFavorite(favorite_id).subscribe(() => {
+      console.log('test');
+      this.dataSource.data.splice(i, 1);
+
+      // Weird workaround to refresh the table
+      // calling renderRows() on table does not seem to work
+      this.dataSource.paginator = this.paginator;
+    });
+  }
+
+  log(i) {
+
   }
 
   getHeroes() {

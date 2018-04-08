@@ -1,5 +1,5 @@
 <div class="table">
-  <mat-table #table [dataSource]="dataSource">
+  <mat-table #favoriteTable [dataSource]="dataSource">
   
       <!-- Heroes Column -->
       <ng-container matColumnDef="heroes">
@@ -50,11 +50,20 @@
       </mat-cell>
       </ng-container>
 
+      <!-- Delete Column -->
+      <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
+        <mat-cell *matCellDef="let favorite; let i = index"> 
+            <button mat-raised-button (click)="delete(favorite._id, i)"><mat-icon svgIcon="delete">
+            </mat-icon></button>
+        </mat-cell>
+        </ng-container>
+
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
   
-  <mat-paginator #paginator
+  <mat-paginator #MatPaginator
                   [pageSize]="10"
                   [pageSizeOptions]="[5, 10, 20]"
                   [showFirstLastButtons]="true">
