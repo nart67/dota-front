@@ -41,6 +41,7 @@ export class GamesComponent implements OnInit, AfterViewInit {
 
       this.searchService.searchGames(search).subscribe(games => {
         this.dataSource.data = games;
+        this.dataSource.paginator.firstPage();
       });
     });
     this.getHeroes();

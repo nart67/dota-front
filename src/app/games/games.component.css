@@ -1,5 +1,8 @@
 mat-table, mat-paginator {
     background: #202020;
+    max-width: 1200px;
+    min-width: 920px;
+    margin: auto;
 }
 
 mat-row {
@@ -13,9 +16,22 @@ mat-header-cell, mat-cell {
 }
 
 .mat-column-mmr {
-    max-width: 200px;
+    flex: 0 0 10%;
+}
+
+.mat-column-start {
+    flex: 0 0 20%;
 }
 
 .mat-column-heroes {
-    max-width: 300px;
+    min-width: 300px;
+}
+
+.mat-column-favorites {
+    max-width: 100px;
+}
+
+.row {
+    width: 280px;
+    margin: auto;
 }

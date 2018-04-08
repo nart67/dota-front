@@ -1,5 +1,8 @@
 mat-table, mat-paginator {
     background: #202020;
+    max-width: 1200px;
+    min-width: 920px;
+    margin: auto;
 }
 
 mat-row {
@@ -12,14 +15,23 @@ mat-header-cell, mat-cell {
     text-align: center;
 }
 
-mat-raised-button {
-    color: #404040;
+.mat-column-mmr {
+    flex: 0 0 10%;
 }
 
-.mat-column-mmr {
-    max-width: 200px;
+.mat-column-start {
+    flex: 0 0 20%;
 }
 
 .mat-column-heroes {
-    max-width: 300px;
+    min-width: 300px;
+}
+
+.mat-column-delete {
+    max-width: 100px;
+}
+
+.row {
+    width: 280px;
+    margin: auto;
 }

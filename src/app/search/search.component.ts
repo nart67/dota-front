@@ -7,7 +7,8 @@ import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 import { Hero } from '../classes/hero';
 import { Router } from '@angular/router';
-import { MatAutocompleteTrigger } from '@angular/material';
+import { MatAutocompleteTrigger, MatDrawer } from '@angular/material';
+import { SideNavService } from '../services/side-nav.service';
 
 @Component({
   selector: 'app-search',
@@ -34,11 +35,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   @ViewChild('hero', { read: MatAutocompleteTrigger }) heroTrigger;
   @ViewChild('opponent', { read: MatAutocompleteTrigger }) opponentTrigger;
+  @ViewChild('snav') sideNav: MatDrawer;
 
   constructor(
     private searchService: SearchService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.searchService.getHeroes().subscribe(heroes => {

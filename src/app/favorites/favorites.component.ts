@@ -22,14 +22,8 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
 
   constructor(
     private favoriteService: FavoriteService,
-    private searchService: SearchService,
-    iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer
-  ) {
-    iconRegistry.addSvgIcon(
-    'delete',
-    sanitizer.bypassSecurityTrustResourceUrl('assets/img/icons/delete.svg'));
-  }
+    private searchService: SearchService
+  ) { }
 
   ngOnInit() {
     this.favoriteService.getFavorites().subscribe(favorites => {
@@ -51,10 +45,6 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
       // calling renderRows() on table does not seem to work
       this.dataSource.paginator = this.paginator;
     });
-  }
-
-  log(i) {
-
   }
 
   getHeroes() {

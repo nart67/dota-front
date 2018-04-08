@@ -54,7 +54,7 @@
       <ng-container matColumnDef="delete">
         <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
         <mat-cell *matCellDef="let favorite; let i = index"> 
-            <button mat-raised-button (click)="delete(favorite._id, i)"><mat-icon svgIcon="delete">
+            <button mat-raised-button (click)="delete(favorite._id, i)"><mat-icon>clear
             </mat-icon></button>
         </mat-cell>
         </ng-container>
