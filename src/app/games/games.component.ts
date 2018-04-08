@@ -24,7 +24,7 @@ export class GamesComponent implements OnInit, AfterViewInit {
 
   webColumns = ['heroes', 'mmr', 'result', 'start', 'replay', 'favorite'];
   mobileColumns = ['mobile'];
-  displayedColumns = this.webColumns;
+  displayedColumns: Array<string>;
   isMobile: boolean;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
