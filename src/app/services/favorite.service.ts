@@ -23,15 +23,15 @@ export class FavoriteService {
 
   updateFavorite(favorite_id: string, comment: string) {
     const update = { comment: comment };
-    this.http.put(API + 'favorites/' + favorite_id, { favorite: update });
+    return this.http.put(API + 'favorites/' + favorite_id, { favorite: update });
   }
 
   deleteFavorite(favorite_id: string) {
-    this.http.delete(API + 'favorites/' + favorite_id);
+    return this.http.delete(API + 'favorites/' + favorite_id);
   }
 
   addFavorite(game_id: string, comment?: string) {
-    this.http.post(API + 'favorites', {game_id: game_id, comment: comment});
+    return this.http.post(API + 'favorites', {game_id: game_id, comment: comment});
   }
 
 }
