@@ -39,7 +39,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   constructor(
     private searchService: SearchService,
-    private router: Router
+    private router: Router,
+    private sideNavService: SideNavService
   ) { }
 
   ngOnInit() {
@@ -115,6 +116,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     }
 
     this.router.navigate(['/games'], { queryParams: params });
+    this.sideNavService.close();
   }
 
 }
