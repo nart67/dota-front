@@ -1,3 +1,4 @@
+import { SideNavService } from './services/side-nav.service';
 import { TokenInterceptor } from './services/token.interceptor';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { HttpErrorInterceptor } from './services/httperror.interceptor';
@@ -15,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatInputModule, MatButtonModule } from '@angular/material';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
@@ -26,6 +28,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { FavoritesComponent } from './favorites/favorites.component';
+import { SideNavComponent } from './side-nav/side-nav.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,8 @@ import { FavoritesComponent } from './favorites/favorites.component';
     NavbarComponent,
     LoginComponent,
     RegisterComponent,
-    FavoritesComponent
+    FavoritesComponent,
+    SideNavComponent
   ],
   imports: [
     BrowserModule,
@@ -52,12 +56,14 @@ import { FavoritesComponent } from './favorites/favorites.component';
     AppRoutingModule,
     MatTableModule,
     MatPaginatorModule,
+    MatSidenavModule,
     NgbModule.forRoot()
   ],
   providers: [
     SearchService,
     FavoriteService,
     AuthService,
+    SideNavService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
