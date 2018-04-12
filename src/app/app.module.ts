@@ -29,6 +29,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { SideNavComponent } from './side-nav/side-nav.component';
     LoginComponent,
     RegisterComponent,
     FavoritesComponent,
-    SideNavComponent
+    SideNavComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
