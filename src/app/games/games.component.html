@@ -64,11 +64,17 @@
         <ng-container matColumnDef="favorite">
             <mat-header-cell *matHeaderCellDef> Add to Favorites </mat-header-cell>
             <mat-cell *matCellDef="let game"> 
-                <mat-checkbox
+                
+                <mat-checkbox *ngIf="authenticated"
                     class="checkbox"
                     id="{{game._id}}"
                     [checked]="!!favorites.get(game._id)"
                     (change)="onCheck(game._id, $event)">
+                </mat-checkbox>
+                <mat-checkbox *ngIf="!authenticated"
+                    indeterminate="true"
+                    disabled="true"
+                    placement="left" ngbTooltip="Sign in to save favorites">
                 </mat-checkbox>
             </mat-cell>
         </ng-container>
@@ -99,12 +105,17 @@
             <div class="col-auto vertical-align">
                 <div>
                 <div class="row justify-content-center">
-                    <mat-checkbox
+                    <mat-checkbox *ngIf="authenticated"
                         class="checkbox"
                         id="{{game._id}}"
                         [checked]="!!favorites.get(game._id)"
                         (change)="onCheck(game._id, $event)">
                         Favorite
+                    </mat-checkbox>
+                    <mat-checkbox *ngIf="!authenticated"
+                        indeterminate="true"
+                        disabled="true"
+                        placement="bottom" ngbTooltip="Sign in to save favorites">
                     </mat-checkbox>
                 </div>
                 <div class="row justify-content-center">
