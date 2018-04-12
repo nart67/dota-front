@@ -4,6 +4,13 @@
   <mat-form-field class="field-full-width">
     <input #hero type="text" spellcheck="false" placeholder="Choose a Hero" aria-label="Hero" matInput [formControl]="heroControl" [matAutocomplete]="autoHero">
     <mat-autocomplete #autoHero="matAutocomplete" [displayWith]="displayFn" [autoActiveFirstOption]="true" (optionSelected)="enableOpponent()">
+      <mat-option *ngIf="!options">
+        <mat-progress-spinner
+          diameter="32"
+          class="spinner"
+          mode="indeterminate">
+        </mat-progress-spinner>
+      </mat-option>
       <mat-option *ngFor="let option of filteredHeroes | async" [value]="option">
         <img style="vertical-align:middle;" aria-hidden src="assets/img/heroes/{{ option.name.slice(14) }}.png" height="25" />
         <span>{{ option.localized_name }}</span>
@@ -14,6 +21,13 @@
   <mat-form-field class="field-full-width">
     <input #opponent type="text" spellcheck="false" placeholder="Choose an Opponent" aria-label="Opponent" matInput [formControl]="opponentControl" [matAutocomplete]="autoOpponent">
     <mat-autocomplete #autoOpponent="matAutocomplete" [displayWith]="displayFn" [autoActiveFirstOption]="true">
+      <mat-option *ngIf="!options">
+        <mat-progress-spinner
+          diameter="32"
+          class="spinner"
+          mode="indeterminate">
+        </mat-progress-spinner>
+      </mat-option>
       <mat-option *ngFor="let option of filteredOpponents | async" [value]="option">
         <img style="vertical-align:middle;" aria-hidden src="assets/img/heroes/{{ option.name.slice(14) }}.png" height="25" />
         <span>{{ option.localized_name }}</span>

@@ -15,7 +15,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatInputModule, MatButtonModule } from '@angular/material';
+import { MatInputModule, MatButtonModule, MatProgressSpinnerModule } from '@angular/material';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -57,6 +57,7 @@ import { SideNavComponent } from './side-nav/side-nav.component';
     MatTableModule,
     MatPaginatorModule,
     MatSidenavModule,
+    MatProgressSpinnerModule,
     NgbModule.forRoot()
   ],
   providers: [

@@ -55,3 +55,7 @@ mat-header-cell, mat-cell {
 .icon {
     margin: 5px;
 }
+
+.spinner {
+    margin: auto;
+}

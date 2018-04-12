@@ -22,6 +22,7 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
   mobileColumns = ['mobile'];
   displayedColumns: Array<string>;
   isMobile: boolean;
+  loaded: boolean;
 
   @ViewChild('MatPaginator') paginator: MatPaginator;
 
@@ -42,8 +43,10 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.loaded = false;
     this.favoriteService.getFavorites().subscribe(favorites => {
       this.dataSource.data = favorites;
+      this.loaded = true;
     });
     this.getHeroes();
   }

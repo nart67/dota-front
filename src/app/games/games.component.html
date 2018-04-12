@@ -1,4 +1,10 @@
-<div class="table">
+<mat-progress-spinner
+    *ngIf="!loaded"
+    class="spinner"
+    mode="indeterminate">
+</mat-progress-spinner>
+
+<div class="table" [hidden]="!loaded">
     <mat-table #table [dataSource]="dataSource" [class.not-mobile]="!isMobile">
 
         <!-- Heroes Column -->

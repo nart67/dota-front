@@ -59,3 +59,7 @@ mat-header-cell, mat-cell {
 .mat-fab {
     margin: 10px;
 }
+
+.spinner {
+    margin: auto;
+}

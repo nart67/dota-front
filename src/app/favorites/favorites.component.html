@@ -1,3 +1,9 @@
+<mat-progress-spinner
+    *ngIf="!loaded"
+    class="spinner"
+    mode="indeterminate">
+</mat-progress-spinner>
+
 <div class="table">
     <mat-table #table [dataSource]="dataSource" [class.not-mobile]="!isMobile">
   

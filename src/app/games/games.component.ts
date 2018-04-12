@@ -26,6 +26,7 @@ export class GamesComponent implements OnInit, AfterViewInit {
   mobileColumns = ['mobile'];
   displayedColumns: Array<string>;
   isMobile: boolean;
+  loaded: boolean;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -48,6 +49,7 @@ export class GamesComponent implements OnInit, AfterViewInit {
    }
 
   ngOnInit() {
+    this.loaded = false;
     this.route.queryParamMap.subscribe((params) => {
       const search = new SearchParams;
       search.hero = +params.get('hero');
@@ -58,6 +60,7 @@ export class GamesComponent implements OnInit, AfterViewInit {
       this.searchService.searchGames(search).subscribe(games => {
         this.dataSource.data = games;
         this.dataSource.paginator.firstPage();
+        this.loaded = true;
       });
     });
     this.getHeroes();
